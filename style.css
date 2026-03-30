@@ -185,7 +185,7 @@ header {
   transition: background .15s, color .15s;
 }
 .dropdown a:last-child { border-bottom: none; }
-.dropdown a:hover { background: var(--gold-pale); color: var(--gold-dk); }
+.dropdown a:hover { background: var(--blue-pale); color: var(--equity-blue); }
 
 /* Nav right slot */
 .nav-right {
@@ -1057,6 +1057,7 @@ footer {
 
 /* ── TRUST BAR ── */
 .trust-bar {
+
   background: var(--equity-blue);
   color: rgba(255,255,255,0.9);
   padding: 10px var(--gutter);
@@ -1068,6 +1069,7 @@ footer {
   font-size: 13px;
   letter-spacing: 0;
   font-weight: 500;
+  overflow: hidden;
 }
 .trust-bar a { color: #fff; text-decoration: underline; transition: opacity .2s; }
 .trust-bar a:hover { opacity: 0.8; }
