@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Featured Listings | Tamara Seiler · REALTOR®</title>
+  <meta name="description" content="Featured real estate listings and sold history by Tamara Seiler, REALTOR® – Utah County specialist. Equity Real Estate, Spanish Fork UT 84660."/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ── PAST LISTINGS TABLE ── */
+    .history-wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 80px var(--gutter);
+    }
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 52px;
+    }
+    .history-table th {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--stone);
+      font-weight: 400;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      text-align: left;
+      background: var(--linen-lt);
+    }
+    .history-table td {
+      padding: 18px 20px;
+      font-size: 15px;
+      border-bottom: 1px solid var(--border);
+      font-weight: 300;
+      color: var(--text);
+      vertical-align: middle;
+    }
+    .history-table tr:hover td { background: var(--linen-lt); }
+    .history-table tbody tr:last-child td { border-bottom: none; }
+    .status-pill {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border: 1px solid;
+    }
+    .pill-sold    { border-color: var(--stone); color: var(--stone); }
+    .pill-listing { border-color: var(--equity-blue); color: var(--equity-blue); }
+    .pill-buyer   { border-color: var(--ink); color: var(--ink); }
+
+    .address-cell { font-weight: 400; color: var(--ink); font-size: 16px; }
+    .city-cell { color: var(--stone); font-size: 14px; }
+
+    /* ── NOTIFY FORM ── */
+    .notify-section {
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      padding: 80px var(--gutter);
+    }
+    .notify-inner {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 700px) {
+      .history-table thead { display: none; }
+      .history-table td {
+        display: block;
+        padding: 8px 16px;
+        border-bottom: none;
+        font-size: 14px;
+      }
+      .history-table tr {
+        display: block;
+        border-bottom: 1px solid var(--border);
+        padding: 12px 0;
+      }
+      .history-table tbody tr:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html">
+      <span style="color:var(--equity-blue);display:flex;align-items:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+      <div style="margin-left:8px;">
+        <span class="brand-name">Tamara Seiler</span>
+        <span class="brand-sub">REALTOR&reg; &middot; Utah County</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="has-dropdown">
+        <a href="buy-sell-invest.html" class="active">Sell | Buy | Invest &#9662;</a>
+        <div class="dropdown">
+          <a href="buy-sell-invest.html#sell">Sell Your Home</a>
+          <a href="buy-sell-invest.html#buy">Buy a Home</a>
+          <a href="buy-sell-invest.html#invest">Invest</a>
+          <a href="featured-listings.html">Current Listings</a>
+        </div>
+      </li>
+      <li><a href="rentals.html">Rentals</a></li>
+      <li class="has-dropdown">
+        <a href="about.html">Meet Tammy &#9662;</a>
+        <div class="dropdown">
+          <a href="about.html">About Tammy</a>
+          <a href="client-testimonials.html">Client Reviews</a>
+        </div>
+      </li>
+      <li><a href="community.html">Community</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="tel:3853279225" class="btn btn-gold" style="padding:10px 20px;font-size:13px;font-weight:600;white-space:nowrap;">Call Now</a>
+    </div>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <img src="https://static.wixstatic.com/media/86c47d_329556b874304b23b5016b330c095f88~mv2.jpg" alt="Featured Listings"/>
+  <div class="page-hero-content">
+    <span class="eyebrow">Properties</span>
+    <h1>Featured Listings</h1>
+    <div class="gold-bar"></div>
+  </div>
+</section>
+
+<!-- NO ACTIVE LISTINGS -->
+<div class="no-listings-wrap">
+  <div class="no-listings-icon"></div>
+  <div class="no-listings-rule"></div>
+  <h2>No Active Listings at This Time</h2>
+  <p>
+    Exceptional properties move quickly in Utah County. Leave your email below and you'll be the first to know when something new comes to market — before it's announced publicly.
+  </p>
+  <a href="contact.html" class="btn btn-ink">Work With Me</a>
+  &nbsp;&nbsp;
+  <a href="tel:3853279225" class="btn btn-outline">Call 385-327-9225</a>
+
+  <!-- NOTIFY -->
+  <div class="notify-box">
+    <div class="gold-rule"></div>
+    <h4 style="font-family:var(--serif);font-size:26px;font-weight:300;color:var(--ink);margin-bottom:8px;">Be the First to Know</h4>
+    <p style="font-size:15px;color:var(--stone);margin-bottom:22px;font-weight:300;">Enter your email and I'll reach out the moment a new listing is available.</p>
+    <form data-form="notify" style="margin:0;">
+      <div class="notify-row">
+        <input type="email" name="email" placeholder="Your email address" required/>
+        <button type="submit" class="btn btn-gold">Notify Me</button>
+      </div>
+      <div class="success-msg" style="margin-top:16px;">You're on the list! I'll be in touch as soon as a new property becomes available.</div>
+    </form>
+  </div>
+</div>
+
+<!-- DIVIDER -->
+<div style="border-top:1px solid var(--border);"></div>
+
+<!-- TRANSACTION HISTORY -->
+<div class="history-wrap">
+  <div class="text-center" style="margin-bottom:8px;">
+    <span class="eyebrow">Track Record</span>
+    <div class="gold-rule center"></div>
+    <h2 class="section-title">Transaction History</h2>
+    <p class="section-sub">Recent sales across Utah County &amp; beyond — as Listing Agent &amp; Buyer's Agent</p>
+  </div>
+
+  <table class="history-table">
+    <thead>
+      <tr>
+        <th>Address</th>
+        <th>City / ZIP</th>
+        <th>Role</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="address-cell">3425 W 6050 S</td>
+        <td class="city-cell">Spanish Fork, UT 84660</td>
+        <td><span class="status-pill pill-listing">Listing Agent</span></td>
+        <td><span class="status-pill pill-sold">Sold</span></td>
+      </tr>
+      <tr>
+        <td class="address-cell">370 E 400 N</td>
+        <td class="city-cell">Spanish Fork, UT 84660</td>
+        <td><span class="status-pill pill-listing">Listing Agent</span></td>
+        <td><span class="status-pill pill-sold">Sold</span></td>
+      </tr>
+      <tr>
+        <td class="address-cell">1382 N 1810 E</td>
+        <td class="city-cell">Spanish Fork, UT 84660</td>
+        <td><span class="status-pill pill-buyer">Buyer's Agent</span></td>
+        <td><span class="status-pill pill-sold">Sold</span></td>
+      </tr>
+      <tr>
+        <td class="address-cell">53 S 100 W</td>
+        <td class="city-cell">Farmington, UT 84025</td>
+        <td><span class="status-pill pill-listing">Listing Agent</span></td>
+        <td><span class="status-pill pill-sold">Sold</span></td>
+      </tr>
+      <tr>
+        <td class="address-cell">308 N 2750 E</td>
+        <td class="city-cell">Spanish Fork, UT 84660</td>
+        <td><span class="status-pill pill-buyer">Buyer's Agent</span></td>
+        <td><span class="status-pill pill-sold">Sold</span></td>
+      </tr>
+      <tr>
+        <td class="address-cell">132 N 500 E</td>
+        <td class="city-cell">Payson, UT 84651</td>
+        <td><span class="status-pill pill-buyer">Buyer's Agent</span></td>
+        <td><span class="status-pill pill-sold">Sold</span></td>
+      </tr>
+      <tr>
+        <td class="address-cell">919 S 850 W</td>
+        <td class="city-cell">American Fork, UT 84003</td>
+        <td><span class="status-pill pill-listing">Listing Agent</span></td>
+        <td><span class="status-pill pill-sold">Sold</span></td>
+      </tr>
+      <tr>
+        <td class="address-cell">431 S Meadow Garden Rd</td>
+        <td class="city-cell">American Fork, UT 84003</td>
+        <td><span class="status-pill pill-listing">Listing Agent</span></td>
+        <td><span class="status-pill pill-sold">Sold</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size:13px;color:var(--stone-lt);margin-top:20px;font-weight:300;">Transaction data sourced from UtahRealEstate.com. May not reflect all transactions.</p>
+</div>
+
+<!-- CTA -->
+<div class="cta-ink">
+  <span class="eyebrow">Looking for Something Specific?</span>
+  <h2>Tell Me What You Have in Mind</h2>
+  <p>I'll find it before it hits the market.</p>
+  <a href="contact.html" class="btn btn-gold">Get In Touch</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="name">Tamara Seiler</div>
+      <div class="title">REALTOR®</div>
+      <p>Licensed Sales Agent · Equity Real Estate Utah<br/>307 N 2700 E · Spanish Fork, UT 84660</p>
+      <div class="footer-equity">
+        
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="featured-listings.html">Featured Listings</a></li>
+        <li><a href="rentals.html">Rentals</a></li>
+        <li><a href="rental-application.html">Rental Application</a></li>
+        <li><a href="about.html">About Me</a></li>
+        <li><a href="client-testimonials.html">Client Testimonials</a></li>
+        <li><a href="contact.html">Contact Me</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <div class="footer-contact-item"><span>✆</span><a href="tel:3853279225">385-327-9225</a></div>
+      <div class="footer-contact-item"><span><span style="display:inline-flex;align-items:center;vertical-align:middle;"><svg width="14" height="14" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7L22 7"/></svg></span></span><a href="mailto:tamara.seiler@outlook.com" style="color:rgba(255,255,255,0.88);font-size:14px;">tamara.seiler@outlook.com</a></div>
+      <div class="footer-contact-item"><span>⌖</span><span style="color:rgba(255,255,255,.78);">307 N 2700 E · Sp

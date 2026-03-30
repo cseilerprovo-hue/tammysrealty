@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rentals | Tamara Seiler · REALTOR®</title>
+  <meta name="description" content="Rental properties managed by Tamara Seiler, REALTOR® – Utah County homes and vacation rentals. Apply online."/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ── RENTAL LISTING LAYOUT ── */
+    .rental-listing {
+      background: var(--white);
+      border: 1px solid var(--border);
+      margin-bottom: 32px;
+      overflow: hidden;
+    }
+    .rental-listing-inner {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      min-height: 280px;
+    }
+    .rental-listing-img {
+      position: relative;
+      overflow: hidden;
+    }
+    .rental-listing-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .5s;
+    }
+    .rental-listing:hover .rental-listing-img img {
+      transform: scale(1.04);
+    }
+    .rental-listing-body {
+      padding: 36px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .rental-listing-body h3 {
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .rental-listing-body p {
+      font-size: 15px;
+      color: var(--stone);
+      line-height: 1.8;
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+    .rental-status-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border: 1px solid;
+      margin-bottom: 16px;
+    }
+    .status-avail   { border-color: var(--equity-blue); color: var(--equity-blue); background: var(--gold-pale); }
+    .status-unavail { border-color: var(--stone-lt); color: var(--stone); background: transparent; }
+    .status-vacation{ border-color: #a0b8c8; color: #3a6a84; background: #eef5fa; }
+
+    .rental-footer-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    /* ── APPLY TOGGLE BTN ── */
+    .apply-toggle {
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--equity-blue);
+      border: 1px solid var(--gold-dk);
+      padding: 10px 26px;
+      background: transparent;
+      cursor: pointer;
+      font-family: var(--sans);
+      font-weight: 400;
+      transition: all .2s;
+    }
+    .apply-toggle:hover { background: var(--gold); color: #fff; border-color: var(--equity-blue); }
+    .apply-toggle:disabled,
+    .apply-toggle.disabled {
+      color: var(--stone-lt);
+      border-color: var(--border);
+      cursor: not-allowed;
+      background: transparent;
+    }
+    .apply-toggle.disabled:hover {
+      background: transparent;
+      color: var(--stone-lt);
+      border-color: var(--border);
+    }
+    .unavail-note {
+      font-size: 13px;
+      color: var(--stone-lt);
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    /* ── APPLICATION FORM DRAWER ── */
+    .apply-drawer {
+      display: none;
+      border-top: 1px solid var(--border);
+      background: var(--linen-lt);
+    }
+    .apply-drawer.open { display: block; }
+    .apply-drawer-inner {
+      padding: 44px 40px;
+      max-width: 860px;
+    }
+    .apply-drawer-inner h4 {
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .apply-drawer-inner .sub {
+      font-size: 14px;
+      color: var(--stone);
+      margin-bottom: 32px;
+      font-weight: 300;
+    }
+    .apply-drawer .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+    .apply-drawer .form-group { display: flex; flex-direction: column; gap: 7px; }
+    .apply-drawer .form-group.full { grid-column: 1 / -1; }
+    .apply-drawer label { font-size: 11px; font-weight: 400; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-mid); }
+    .apply-drawer input[type="text"],
+    .apply-drawer input[type="email"],
+    .apply-drawer input[type="tel"],
+    .apply-drawer input[type="date"],
+    .apply-drawer select,
+    .apply-drawer textarea {
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      font-family: var(--sans);
+      font-size: 16px;
+      color: var(--text);
+      background: var(--white);
+      width: 100%;
+      font-weight: 300;
+      -webkit-appearance: none;
+      transition: border-color .2s;
+    }
+    .apply-drawer input:focus,
+    .apply-drawer select:focus,
+    .apply-drawer textarea:focus { outline: none; border-color: var(--equity-blue); }
+    .apply-drawer textarea { resize: vertical; min-height: 90px; }
+    .apply-drawer .radio-section { margin-bottom: 20px; }
+    .apply-drawer .radio-label { font-size: 11px; font-weight: 400; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-mid); display: block; margin-bottom: 10px; }
+    .apply-drawer .radio-opts { display: flex; gap: 24px; }
+    .apply-drawer .radio-opts label { font-size: 15px; text-transform: none; letter-spacing: 0; display: flex; align-items: center; gap: 8px; font-weight: 300; cursor: pointer; color: var(--text); }
+    .apply-drawer input[type="radio"] { accent-color: var(--equity-blue); }
+    .apply-drawer .form-note-inline {
+      font-size: 13px;
+      color: var(--stone);
+      font-weight: 300;
+      line-height: 1.7;
+      background: var(--gold-pale);
+      border-left: 2px solid var(--gold);
+      padding: 12px 18px;
+      margin-top: 24px;
+    }
+    .apply-drawer .success-msg {
+      display: none;
+      border: 1px solid #84c884;
+      color: #1f5c1f;
+      padding: 14px 20px;
+      margin-top: 18px;
+      font-size: 15px;
+      background: #f0fbf0;
+    }
+    .apply-section-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 24px 0;
+    }
+    .quals-title {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .rental-listing-inner { grid-template-columns: 1fr; }
+      .rental-listing-img { height: 280px; }
+      .apply-drawer-inner { padding: 32px 24px; }
+      .apply-drawer .form-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .rental-listing-body { padding: 28px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html">
+      <span style="color:var(--equity-blue);display:flex;align-items:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+      <div style="margin-left:8px;">
+        <span class="brand-name">Tamara Seiler</span>
+        <span class="brand-sub">REALTOR&reg; &middot; Utah County</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="has-dropdown">
+        <a href="buy-sell-invest.html">Sell | Buy | Invest &#9662;</a>
+        <div class="dropdown">
+          <a href="buy-sell-invest.html#sell">Sell Your Home</a>
+          <a href="buy-sell-invest.html#buy">Buy a Home</a>
+          <a href="buy-sell-invest.html#invest">Invest</a>
+          <a href="featured-listings.html">Current Listings</a>
+        </div>
+      </li>
+      <li><a href="rentals.html" class="active">Rentals</a></li>
+      <li class="has-dropdown">
+        <a href="about.html">Meet Tammy &#9662;</a>
+        <div class="dropdown">
+          <a href="about.html">About Tammy</a>
+          <a href="client-testimonials.html">Client Reviews</a>
+        </div>
+      </li>
+      <li><a href="community.html">Community</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="tel:3853279225" class="btn btn-gold" style="padding:10px 20px;font-size:13px;font-weight:600;white-space:nowrap;">Call Now</a>
+    </div>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <img src="https://static.wixstatic.com/media/86c47d_6a3c46f76023447780a9a4bf80222653~mv2.jpg" alt="Rental Properties"/>
+  <div class="page-hero-content">
+    <span class="eyebrow">For Rent</span>
+    <h1>Rental Properties</h1>
+    <div class="gold-bar"></div>
+  </div>
+</section>
+
+<!-- RENTALS LIST -->
+<main>
+  <div class="section">
+    <div class="text-center" style="margin-bottom:56px;">
+      <span class="eyebrow">Available Properties</span>
+      <div class="gold-rule center"></div>
+      <h2 class="section-title">Utah Rental Properties</h2>
+      <p class="section-sub">Managed by Tamara Seiler · Click "Apply Now" on any available property to begin your application</p>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         RENTAL 1 — Springville New Home (UNAVAILABLE)
+         To enable: change data-available="false" → "true"
+                    and status-unavail → status-avail
+         ══════════════════════════════════════════════════ -->
+    <div class="rental-listing" id="rental-springville-new">
+      <div class="rental-listing-inner">
+        <div class="rental-listing-img">
+          <img src="https://static.wixstatic.com/media/86c47d_6a3c46f76023447780a9a4bf80222653~mv2.jpg" alt="Springville New Home"/>
+        </div>
+        <div class="rental-listing-body">
+          <div>
+            <span class="rental-status-badge status-unavail">Currently Unavailable</span>
+            <h3>Brand New Home — Springville, UT</h3>
+            <p>A brand new home in Springville, UT. Approximately 2,850 sq ft. Close to schools, shopping, and pool. Modern finishes throughout.</p>
+          </div>
+          <div class="rental-footer-row">
+            <button class="apply-toggle disabled" data-target="form-springville-new" data-available="false" disabled>
+              Applications Closed
+            </button>
+            <span class="unavail-note">Contact Tamara to be added to the waitlist</span>
+          </div>
+        </div>
+      </div>
+      <!-- Application drawer — shown when available -->
+      <div class="apply-drawer" id="form-springville-new">
+        <div class="apply-drawer-inner">
+          <div class="gold-rule"></div>
+          <h4>Apply — Brand New Home, Springville</h4>
+          <p class="sub">Complete the form below. Final applicants will be required to pass a background check and credit report (fees paid by applicant via Zillow or Rentler).</p>
+          <form data-form="rental-springville-new">
+            <!-- Personal Info -->
+            <div class="form-row">
+              <div class="form-group"><label>First Name</label><input type="text" name="firstName" placeholder="Jane" required/></div>
+              <div class="form-group"><label>Last Name</label><input type="text" name="lastName" placeholder="Smith" required/></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Email Address</label><input type="email" name="email" placeholder="jane@example.com" required/></div>
+              <div class="form-group"><label>Phone Number</label><input type="tel" name="phone" placeholder="(801) 555-0100" required/></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Date of Birth</label><input type="date" name="dob"/></div>
+              <div class="form-group"><label>Monthly Income</label><input type="text" name="income" placeholder="e.g. $4,500"/></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Desired Move-In Date</label><input type="date" name="movedate"/></div>
+              <div class="form-group"><label>Number of Occupants</label><input type="text" name="occupants" placeholder="e.g. 3"/></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full"><label>Current Address</label><input type="text" name="currentAddress" placeholder="123 Main St, City, UT 84660"/></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full"><label>Reason for Moving</label><textarea name="reason" placeholder="Please briefly describe your reason for moving..."></textarea></div>
+            </div>
+            <div class="apply-section-divider"></div>
+            <div class="quals-title">Qualification Questions</div>
+            <div class="radio-section"><span class="radio-label">Do you have a pet?</span><div class="radio-opts"><label><input type="radio" name="pet-sn" value="Yes"/> Yes</label><label><input type="radio" name="pet-sn" value="No" checked/> No</label></div></div>
+            <div class="radio-section"><span class="radio-label">Have you ever been evicted?</span><div class="radio-opts"><label><input type="radio" name="evicted-sn" value="Yes"/> Yes</label><label><input type="radio" name="evicted-sn" value="No" checked/> No</label></div></div>
+            <div class="radio-section"><span class="radio-label">Do you have any felonies?</span><div class="radio-opts"><label><input type="radio" name="felonies-sn" value="Yes"/> Yes</label><label><input type="radio" name="felonies-sn" value="No" checked/> No</label></div></div>
+            <div class="radio-section"><span class="radio-label">Have you declared bankruptcy?</span><div class="radio-opts"><label><input type="radio" name="bankruptcy-sn" value="Yes"/> Yes</label><label><input type="radio" name="bankruptcy-sn" value="No" checked/> No</label></div></div>
+            <div class="radio-section" style="margin-bottom:28px;"><span class="radio-label">Do you smoke or vape?</span><div class="radio-opts"><label><input type="radio" name="smoke-sn" value="Yes"/> Yes</label><label><input type="radio" name="smoke-sn" value="No" checked/> No</label></div></div>
+            <button type="submit" class="btn btn-gold">Submit Application</button>
+            <div class="success-msg">Thank you! Your application has been received. Tamara will be in touch soon.</div>
+          </form>
+          <div class="form-note-inline"><strong>Note:</strong> Final applicants will be required to complete a background check and credit report through Zillow or Rentler. Fees are the responsibility of the applicant.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         RENTAL 2 — Provo Home (UNAVAILABLE)
+         ══════════════════════════════════════════════════ -->
+    <div class="rental-listing" id="rental-provo">
+      <div class="rental-listing-inner">
+        <div class="rental-listing-img">
+          <img src="https://static.wixstatic.com/media/86c47d_3c0225bf8a41478a96cd8ab4b69e6f38~mv2.jpg" alt="Provo Home Rental"/>
+        </div>
+        <div class="rental-listing-body">
+          <div>
+            <span class="rental-status-badge status-unavail">Currently Unavailable</span>
+            <h3>Provo Home Rental</h3>
+            <p>Recently renovated home near Provo Rec Center, downtown Provo, freeway, BYU, hospital, and schools. 3 Bed · 1 Bath · 1,455 sq ft · 1-car garage.</p>
+          </div>
+          <div class="rental-footer-row">
+            <button class="apply-toggle disabled" data-target="form-provo" data-available="false" disabled>Applications Closed</button>
+            <span class="unavail-note">Contact Tamara to be added to the waitlist</span>
+          </div>
+        </div>
+      </div>
+      <div class="apply-drawer" id="form-provo">
+        <div class="apply-drawer-inner">
+          <div class="gold-rule"></div>
+          <h4>Apply — Provo Home Rental</h4>
+          <p class="sub">Complete the form below. Final applicants will be required to pass a background check and credit report.</p>
+          <form data-form="rental-provo">
+            <div class="form-row"><div class="form-group"><label>First Name</label><input type="text" name="firstName" placeholder="Jane" required/></div><div class="form-group"><label>Last Name</label><input type="text" name="lastName" placeholder="Smith" required/></div></div>
+            <div class="form-row"><div class="form-group"><label>Email Address</label><input type="email" name="email" placeholder="jane@example.com" required/></div><div class="form-group"><label>Phone Number</label><input type="tel" name="phone" placeholder="(801) 555-0100" required/></div></div>
+            <div class="form-row"><div class="form-group"><label>Date of Birth</label><input type="date" name="dob"/></div><div class="form-group"><label>Monthly Income</label><input type="text" name="income" placeholder="e.g. $4,500"/></div></div>
+            <div class="form-row"><div class="form-group"><label>Desired Move-In Date</label><input type="date" name="movedate"/></div><div class="form-group"><label>Number of Occupants</label><input type="text" name="occupants" placeholder="e.g. 3"/></div></div>
+            <div class="form-row"><div class="form-group full"><label>Current Address</label><input type="text" name="currentAddress" placeholder="123 Main St, City, UT 84660"/></div></div>
+            <div class="form-row"><div class="form-group full"><label>Reason for Moving</label><textarea name="reason" placeholder="Please briefly describe your reason for moving..."></textarea></div></div>
+            <div class="apply-section-divider"></div>
+            <div class="quals-title">Qualification Questions</div>
+            <div class="radio-section"><span class="radio-label">Do you have a pet?</span><div class="radio-opts"><label><input type="radio" name="pet-provo" value="Yes"/> Yes</label><label><input type="radio" name="pet-provo" value="No" checked/> No</label></div></div>
+            <div class="radio-section"><span class="radio-label">Have you ever been evicted?</span><div class="radio-opts"><label><input type="radio" name="evicted-provo" value="Yes"/> Yes</label><label><input type="radio" name="evicted-provo" value="No" checked/> No</label></div></div>
+            <div class="radio-section"><span class="radio-label">Do you have any felonies?</span><div class="radio-opts"><label><input type="radio" name="felonies-provo" value="Yes"/> Yes</label><label><input type="radio" name="felonies-provo" value="No" checked/> No</label></div></div>
+            <div class="radio-section"><span class="radio-label">Have you declared bankruptcy?</span><div class="radio-opts"><label><input type="radio" name="bankruptcy-provo" value="Yes"/> Yes</label><label><input type="radio" name="bankruptcy-provo" value="No" checked/> No</label></div></div>
+            <div class="radio-section" style="margin-bottom:28px;"><span class="radio-label">Do you smoke or vape?</span><div class="radio-opts"><label><input type="radio" name="smoke-provo" value="Yes"/> Yes</label><label><input type="radio" name="smoke-provo" value="No" checked/> No</label></div></div>
+            <button type="submit" class="btn btn-gold">Submit Application</button>
+            <div class="success-msg">Thank you! Your application has been received. Tamara will be in touch soon.</div>
+          </form>
+          <div class="form-note-inline"><strong>Note:</strong> Final applicants will be required to complete a background check and credit report through Zillow or Rentler. Fees are the responsibility of the applicant.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         RENTAL 3 — Mapleton Basement (UNAVAILABLE)
+         ══════════════════════════════════════════════════ -->
+    <div class="rental-listing" id="rental-mapleton-basement">
+      <div class="rental-listing-inner">
+        <div class="rental-listing-img">
+          <img src="https://static.wixstatic.com/media/86c47d_3ea7007dddd4417eaef1918abd8baa30~mv2.jpg" alt="Mapleton Basement Apartment"/>
+        </div>
+        <div class="rental-listing-body">
+          <div>
+            <span class="rental-status-badge status-unavail">Currently Unavailable</span>
+            <h3>Mapleton Basement Apartment</h3>
+            <p>Quiet neighborhood close to the mountain in beautiful Mapleton, Utah. Private basement apartment setting.</p>
+          </div>
+          <div class="rental-footer-row">
+            <button class="apply-toggle disabled" data-target="form-mapleton-basement" data-available="false" disabled>Applications Closed</button>
+            <span class="unavail-note">Contact Tamara to be added to the waitlist</span>
+          </div>
+        </div>
+      </div>
+      <div class="apply-drawer" id="form-mapleton-basement">
+        <div class="apply-drawer-inner">
+          <div class="gold-rule"></div>
+          <h4>Apply — Mapleton Basement Apartment</h4>
+          <p class="sub">Complete the form below. Final applicants will be required to pass a background check and credit report.</p>
+          <form data-form="rental-mapleton-basement">
+            <div class="form-row"><div class="form-group"><label>First Name</label><input type="text" name="firstName" placeholder="Jane" required/></div><div class="form-group"><label>Last Name</label><input type="text" name="lastName" placeholder="Smith" required/></div></div>
+            <div class="form-row"><div class="form-group"><label>Email Address</label><input type="email" name="email" placeholder="jane@example.com" required/></div><div class="form-group"><label>Phone Number</label><input type="tel" name="phone" placeholder="(801) 555-0100" required/></div></div>
+            <div class="form-row"><div class="form-group"><label>Date of Birth</label><input type="date" name="dob"/></div><div class="form-group"><label>Monthly Income</label><input type="text" name="income" placeholder="e.g. $4,500"/></div></div>
+            <div class="form-row"><div class="form-group"><label>Desired Move-In Date</label><input type="date" name="movedate"/></div><div class="form-group"><label>Number of Occupants</label><input type="text" name="occupants" placeholder="e.g. 2"/></div></div>
+            <div class="form-row"><div class="form-group full"><label>Current Address</label><input type="text" name="currentAddress" placeholder="123 Main St, City, UT 84664"/></div></div>
+            <div class="form-row"><div class="form-group full"><label>Reason for Moving</label><textarea name="reason" placeholder="Please briefly describe your reason for moving..."></textarea></div></div>
+            <div class="apply-section-divider"></div>
+            <div class="quals-title">Qualification Questions</div>
+            <div class="radio-section"><span class="radio-label">Do you have a pet?</span><div class="radio-opts"><label><input type="radio" name="pet-mb" value="Yes"/> Yes</label><label><input type="radio" name="pet-mb" value="No" checked/> No</label></div></div>
+            <div class="radio-section"><span class="radio-label">Have you ever been evicted?</span><div class="radio-opts"><label><input type="radio" name="evicted-mb" value="Yes"/> Yes</label><label><input type="radio" name="evicted-mb" value="No" checked/> No</label></div></div>
+            <div class="radio-section"><span class="radio-label">Do you have any felonies?</span><div class="radio-opts"><label><input type="radio" name="felonies-mb" value="Yes"/> Yes</label><label><input type="radio" name="felonies-mb" value="No" checked/> No</label></div></div>
+            <div class="radio-section"><span class="radio-label">Have you declared bankruptcy?</span><div class="radio-opts"><label><input type="radio" name="bankruptcy-mb" value="Yes"/> Yes</label><label><input type="radio" name="bankruptcy-mb" value="No" checked/> No</label></div></div>
+            <div class="radio-section" style="margin-bottom:28px;"><span class="radio-label">Do you smoke or vape?</span><div class="radio-opts"><label><input type="radio" name="smoke-mb" value="Yes"/> Yes</label><label><input type="radio" name="smoke-mb" value="No" checked/> No</label></div></div>
+            <button type="submit" class="btn btn-gold">Submit Application</button>
+            <div class="success-msg">Thank you! Your application has been received. Tamara will be in touch soon.</div>
+          </form>
+          <div class="form-note-inline"><strong>Note:</strong> Final applicants will be required to complete a background check and credit report through Zillow or Rentler.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         RENTAL 4 — Mapleton Half-Acre (AVAILABLE)
+         data-available="true" enables Apply Now button
+         ══════════════════════════════════════════════════ -->
+    <div class="rental-listing" id="rental-mapleton">
+      <div class="rental-listing-inner">
+        <div class="rental-listing-img">
+          <img src="https://static.wixstatic.com/media/86c47d_e2034ba3f26945f090770d343db952d2~mv2.jpg" alt="Mapleton Utah Home"/>
+        </div>
+        <div class="rental-listing-body">
+          <div>
+            <span class="rental-status-badge status-unavail">Currently Unavailable</span>
+            <h3>Mapleton, Utah — Half-Acre Estate</h3>
+            <p>Beautiful Mapleton home featuring 2,700 sq ft on a half-acre lot with a detached shop. Quiet neighborhood with mountain views.</p>
+          </div>
+          <div class="rental-footer-row">
+            <button class="apply-toggle disabled" data-target="form-mapleton" data-available="false" disabled>Applications Closed</button>
+            <span class="unavail-note">Contact Tamara to join the waitlist</span>
+          </div>
+        </div>
+      </div>
+      <div class="apply-drawer" id="form-mapleton">
+        <div class="apply-drawer-inner">
+          <div class="gold-rule"></div>
+          <h4>Apply — Mapleton Half-Acre Estate</h4>
+          <p class="sub">Complete the form below. Final applicants will be required to pass a background check and credit report (fees paid by applicant via Zillow or Rentler).</p>
+          <form data-form="rental-mapleton">
+            <div class="form-row"><div class="form-group"><label>First Name</label><input type="text" name="firstName" placeholder="Jane" required/></div><div class="form-group"><label>Last Name</label><input type="text" name="lastName" placeholder="Smith" required/></div></div>
+            <div class="form-row"><div class="form-group"><label>Email Address</label><input type="email" name="email" placeholder="jane@example.com" required/></div><div class="form-group"><label>Phone Number</label><input type="tel" name="phone" placeholder="(801) 555-0100" required/></div></div>
+            <div class="form-row"><div class="form-group"><label>Date of Birth</label><input type="date" name="dob"/></div><div class="form-group"><label>Monthly Income</label><input type="text" name="income" placeholder="e.g. $5,000"/></div></div>
+            <div class="form-row"><div class="form-group"><label>Desired Move-In Date</label><input type="date" name="movedate"/></div><div class="form-group"><label>Number of Occupants</label><input type="text" name="occupants" placeholder="e.g. 4"/></div></div>
+            <div class="form-row"><div class="form-group full"><label>Current Address</label><input type="text" name="currentAddress" placeholder="123 Main St, City, UT 84664"/></div></div>
+            <div class="form-row"><div class="form-group full"><label>Reason for Moving</label><textarea name="reason" placeholder="Please briefly describe your reason for moving..."></textarea></div></div>
+            <div class="apply-section-divider"></div>
+            <div class="quals-title">Qualification Questions</div>
+            <div class="radio-section"><span class="radio-label">Do you have a pet?</span><div class="radio-opts"><label><input type="radio" name="pet-mp" value="Yes"/> Yes</label><label><input type="radio" name="pet-mp" value="No" checked/> No</label></div></div>
+            <div class="radio-section"><span class="radio-label">Have you ever been evicted?</span><div class="radio-opts"><label><input type="radio" name="evicted-mp" value="Yes"/> Yes</label><label><input type="radio" name="evicted-mp" value="No" checked/> No</label></div></div>
+            <div class="radio-section"><span class="radio-label">Do you have any felonies?</span><div class="radio-opts"><label><input type="radio" name="felonies-mp" value="Yes"/> Yes</label><label><input type="radio" name="felonies-mp" value="No" checked/> No</label></div></div>
+            <div class="radio-section"><span class="radio-label">Have you declared bankruptcy?</span><div class="radio-opts"><label><input type="radio" name="bankruptcy-mp" value="Yes"/> Yes</label><label><input type="radio" name="bankruptcy-mp" value="No" checked/> No</label></div></div>
+            <div class="radio-section" style="margin-bottom:28px;"><span class="radio-label">Do you smoke or vape?</span><div class="radio-opts"><label><input type="radio" name="smoke-mp" value="Yes"/> Yes</label><label><input type="radio" name="smoke-mp" value="No" checked/> No</label></div></div>
+            <button type="submit" class="btn btn-gold">Submit Application</button>
+            <div class="success-msg">Thank you! Your application has been received. Tamara will be in touch soon.</div>
+          </form>
+          <div class="form-note-inline"><strong>Note:</strong> Final applicants will be required to complete a background check and credit report through Zillow or Rentler. Fees are the responsibility of the applicant.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         RENTAL 5 — Springville Home (AVAILABLE)
+         ══════════════════════════════════════════════════ -->
+    <div class="rental-listing" id="rental-springville">
+      <div class="rental-listing-inner">
+        <div class="rental-listing-img">
+          <img src="https://static.wixstatic.com/media/86c47d_64870ed65bf746fe92f26e76238fe129~mv2.jpg" alt="Springville Home"/>
+        </div>
+        <div class="rental-listing-body">
+          <div>
+            <span class="rental-status-badge status-unavail">Currently Unavailable</span>
+            <h3>Springville Home</h3>
+            <p>A charming home with approximately 2,400 sq ft, conveniently located in Springville, UT. Close to schools and shopping.</p>
+          </div>
+          <div class="rental-footer-row">
+            <button class="apply-toggle disabled" data-target="form-springville" data-available="false" disabled>Applications Closed</button>
+            <span class="unavail-note">Contact Tamara to join the waitlist</span>
+          </div>
+        </div>
+      </div>
+      <div class="apply-drawer" id="form-springville">
+        <div class="apply-drawer-inner">
+          <div class="gold-rule"></div>
+          <h4>Apply — Springville Home</h4>
+          <p class="sub">Complete the form below. Final applicants will be required to pass a background check and credit report.</p>
+          <form data-form="rental-springville">
+            <div class="form-row"><div class="form-group"><label>First Name</label><input type="text" name="firstName" placeholder="Jane" required/></div><div class="form-group"><label>Last Name</label><input type="text" name="lastName" placeholder="Smith" required/></div></div>
+            <div class="form-row"><div class="form-group"><label>Email Address</label><input type="email" name="email" placeholder="jane@example.com" required/></div><div class="form-group"><label>Phone Number</label><input type="tel" name="phone" placeholder="(801) 555-0100" required/></div></div>
+            <div class="form-row"><div class="form-group"><label>Date of Birth</label><input type="date" name="dob"/></div><div class="form-group"><label>Monthly Income</label><input type="text" name="income" placeholder="e.g. $4,500"/></div></div>
+            <div class="form-row"><div class="form-group"><label>Desired Move-In Date</label><input type="date" name="movedate"/></div><div class="form-group"><label>Number of Occupants</label><input type="text" name="occupants" placeholder="e.g. 3"/></div></div>
+            <div class="form-row"><div class="form-group full"><label>Current Address</label><input type="text" name="currentAddress" placeholder="123 Main St, City, UT"/></div></div>
+            <div class="form-row"><div class="form-group full"><label>Reason for Moving</label><textarea name="reason" placeholder="Please briefly describe your reason for moving..."></textarea></div></div>
+            <div class="apply-section-divider"></div>
+            <div class="quals-title">Qualification Questions</div>
+            <div class="radio-section"><span class="radio-label">Do you have a pet?</span><div class="radio-opts"><label><input type="radio" name="pet-sv" value="Yes"/> Yes</label><label><input type="radio" name="pet-sv" value="No" checked/> No</label></div></div>
+            <div class="radio-section"><span class="radio-label">Have you ever been evicted?</span><div class="radio-opts"><label><input type="radio" name="evicted-sv" value="Yes"/> Yes</label><label><input type="radio" name="evicted-sv" value="No" checked/> No</label></div></div>
+            <div class="radio-section"><span class="radio-label">Do you have any felonies?</span><div class="radio-opts"><label><input type="radio" name="felonies-sv" value="Yes"/> Yes</label><label><input type="radio" name="felonies-sv" value="No" checked/> No</label></div></div>
+            <div class="radio-section"><span class="radio-label">Have you declared bankruptcy?</span><div class="radio-opts"><label><input type="radio" name="bankruptcy-sv" value="Yes"/> Yes</label><label><input type="radio" name="bankruptcy-sv" value="No" checked/> No</label></div></div>
+            <div class="radio-section" style="margin-bottom:28px;"><span class="radio-label">Do you smoke or vape?</span><div class="radio-opts"><label><input type="radio" name="smoke-sv" value="Yes"/> Yes</label><label><input type="radio" name="smoke-sv" value="No" checked/> No</label></div></div>
+            <button type="submit" class="btn btn-gold">Submit Application</button>
+            <div class="success-msg">Thank you! Your application has been received. Tamara will be in touch soon.</div>
+          </form>
+          <div class="form-note-inline"><strong>Note:</strong> Final applicants will be required to complete a background check and credit report through Zillow or Rentler.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         RENTAL 6 — Bryce Canyon (VACATION)
+         ══════════════════════════════════════════════════ -->
+    <div class="rental-listing" id="rental-bryce">
+      <div class="rental-listing-inner">
+        <div class="rental-listing-img">
+          <img src="https://static.wixstatic.com/media/86c47d_d62543889f1044e8875d289f0f6ab188~mv2.webp" alt="Bryce Canyon Homestead"/>
+        </div>
+        <div class="rental-listing-body">
+          <div>
+            <span class="rental-status-badge status-vacation">Vacation Rental</span>
+            <h3>Bryce Canyon Homestead</h3>
+            <p>Charming vacation home in Tropic, Utah — just 15 minutes from Bryce Canyon National Park. Available year-round for short-term rentals. Book at <a href="https://www.brycecanyonhomestead.com" target="_blank" rel="noopener">BryceCanyonHomestead.com</a>.</p>
+          </div>
+          <div class="rental-footer-row">
+            <a href="https://www.brycecanyonhomestead.com" target="_blank" rel="noopener" class="btn btn-outline">Visit BryceCanyonHomestead.com</a>
+            <span class="unavail-note">Short-term / vacation rental only</span>
+          </div>
+        </div>
+      </div>
+      <!-- No application drawer for vacation rental -->
+    </div>
+
+    <!-- APPLY NOTE -->
+    <div style="background:var(--gold-pale);border:1px solid var(--border);border-top:2px solid var(--gold);padding:28px 36px;margin-top:16px;display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap;">
+      <div style="font-size:22px;color:var(--equity-blue);flex-shrink:0;"><span style="display:inline-flex;align-items:center;"><svg width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span></div>
+      <div>
+        <div style="font-family:var(--serif);font-size:20px;font-weight:400;color:var(--ink);margin-bottom:6px;">Enabling &amp; Disabling Applications</div>
+        <div style="font-size:14px;color:var(--stone);font-weight:300;line-height:1.75;">To enable an application form for a rental, change its button from <code style="background:rgba(0,0,0,0.06);padding:2px 6px;font-size:13px;">data-available="false"</code> to <code style="background:rgba(0,0,0,0.06);padding:2px 6px;font-size:13px;">data-available="true"</code> in the HTML, and update the status badge class. Applications on unavailable properties are automatically disabled and greyed out.</div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════
+         STANDALONE APPLY SECTION — bottom of page only
+         ══════════════════════════════════════════════════════ -->
+    <div id="standalone-apply" style="margin-top:64px;background:var(--light-bg);border:1px solid var(--border-light);border-top:3px solid var(--equity-blue);padding:48px 44px;">
+      <div style="max-width:680px;">
+        <p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--equity-blue);font-weight:700;margin-bottom:12px;">Rental Application</p>
+        <h3 style="font-family:var(--serif);font-size:30px;font-weight:700;color:var(--text-dark);margin-bottom:10px;">Ready to Apply?</h3>
+        <p style="font-size:16px;color:var(--text-mid);font-weight:300;line-height:1.75;margin-bottom:24px;">Complete our rental application form. Final applicants are required to complete a background check and credit report through Zillow or Rentler &mdash; fees are the applicant's responsibility.</p>
+        <a href="rental-application.html" class="btn btn-gold" style="display:inline-flex;align-items:center;gap:8px;">
+          Start Rental Application &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="name">Tamara &ldquo;Tammy&rdquo; Seiler</div>
+      <div class="title">REALTOR&reg; &middot; Equity Real Estate Utah</div>
+      <p>Your neighbor, your advocate, your REALTOR&reg;. Helping Utah County families buy, sell, and find their place to call home &mdash; with honesty, care, and local know-how.</p>
+      <div style="margin-top:22px;display:flex;flex-direction:column;gap:12px;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <span style="width:34px;height:34px;border:1px solid rgba(255,255,255,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.75);flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5 19.79 19.79 0 01.86 2.18 2 2 0 012.18 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92v2.02z"/></svg></span>
+          <div><span style="display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:2px;">Phone</span><a href="tel:3853279225" style="color:rgba(255,255,255,0.88);font-size:14px;">385-327-9225</a></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <span style="width:34px;height:34px;border:1px solid rgba(255,255,255,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.75);flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7L22 7"/></svg></span>
+          <div><span style="display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:2px;">Email</span><a href="mailto:tamara.seiler@outlook.com" style="color:rgba(255,255,255,0.88);font-size:14px;">tamara.seiler@outlook.com</a></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <span style="width:34px;height:34px;border:1px solid rgba(255,255,255,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.75);flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+          <div><span style="display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:2px;">Office</span><span style="color:rgba(255,255,255,0.78);font-size:14px;">307 N 2700 E &middot; Spanish Fork, UT 84660</span></div>
+        </div>
+      </div>
+      <div style="margin-top:20px;display:flex;gap:10px;align-items:center;">
+        <a href="https://www.facebook.com/tamara.utah.homes/" target="_blank" rel="noopener"
+           style="width:36px;height:36px;border:1px solid rgba(255,255,255,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.78);transition:all .2s;"
+           title="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        <a href="https://www.linkedin.com/in/tammy-seiler" target="_blank" rel="noopener"
+           style="width:36px;height:36px;border:1px solid rgba(255,255,255,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.78);transition:all .2s;"
+           title="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      </div>
+      <div style="margin-top:20px;padding:10px 14px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:4px;display:inline-block;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 54" style="height:40px;width:auto;display:block;">
+  <circle cx="20" cy="27" r="19" fill="white" opacity="0.95"/>
+  <text x="20" y="34" font-family="Georgia,serif" font-size="22" font-weight="bold" fill="#0054A0" text-anchor="middle" font-style="italic">e</text>
+  <text x="46" y="36" font-family="Georgia,serif" font-size="24" font-weight="bold" fill="white" letter-spacing="0.3">quity</text>
+  <text x="46" y="50" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.6)" letter-spacing="2.5">REAL ESTATE</text>
+</svg>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="buy-sell-invest.html">Sell | Buy | Invest</a></li>
+        <li><a href="featured-listings.html">Current Listings</a></li>
+        <li><a href="rentals.html">Rental Properties</a></li>
+        <li><a href="community.html">Community Guide</a></li>
+        <li><a href="about.html">Meet Tammy</a></li>
+        <li><a href="client-testimonials.html">Client Reviews</a></li>
+        <li><a href="contact.html">Contact Me</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Areas Served</h4>
+      <ul>
+        <li><a href="community.html#spanish-fork">Spanish Fork, UT 84660</a></li>
+        <li><a href="community.html#mapleton">Mapleton, UT 84664</a></li>
+        <li><a href="contact.html?area=provo">Provo, UT 84601</a></li>
+        <li><a href="contact.html?area=american-fork">American Fork, UT 84003</a></li>
+        <li><a href="contact.html?area=payson">Payson, UT 84651</a></li>
+        <li><a href="community.html#springville">Springville, UT 84663</a></li>
+        <li><a href="contact.html?interest=relocation">Relocating to Utah?</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2025 Tamara Seiler &middot; REALTOR&reg; &middot; Equity Real Estate Utah &middot; Licensed in Utah</span>
+    <span>
+      <a href="https://www.facebook.com/tamara.utah.homes/" target="_blank" rel="noopener">Facebook</a>
+      &middot;
+      <a href="https://www.linkedin.com/in/tammy-seiler" target="_blank" rel="noopener">LinkedIn</a>
+      &middot;
+      <a href="contact.html">Contact</a>
+    </span>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script>
+  // ── APPLY TOGGLE LOGIC ──────────────────────────────────────
+  document.querySelectorAll('.apply-toggle[data-available="true"]').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const drawerId = this.getAttribute('data-target');
+      const drawer = document.getElementById(drawerId);
+      if (!drawer) return;
+      const isOpen = drawer.classList.contains('open');
+      // Close all drawers first
+      document.querySelectorAll('.apply-drawer.open').forEach(d => {
+        d.classList.remove('open');
+        const b = document.querySelector(`[data-target="${d.id}"]`);
+        if (b) b.textContent = 'Apply Now';
+      });
+      // Toggle this one
+      if (!isOpen) {
+        drawer.classList.add('open');
+        this.textContent = 'Close Application';
+        setTimeout(() => drawer.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+      }
+    });
+  });
+
+  // ── FORM SUBMIT ─────────────────────────────────────────────
+  document.querySelectorAll('.apply-drawer form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const msg = this.querySelector('.suc

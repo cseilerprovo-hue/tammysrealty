@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sell | Buy | Invest | Tamara Seiler REALTOR® Utah County</title>
+  <meta name="description" content="Whether you're selling your Utah County home, buying your next one, or building a real estate investment portfolio — Tamara Seiler is your trusted local REALTOR®. Free home value estimates."/>
+  <meta name="keywords" content="sell home Utah County, buy home Spanish Fork, real estate investment Utah, REALTOR Spanish Fork, free home value estimate Utah"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+
+    /* ── TAB NAVIGATION ── */
+    .sbi-tabs-wrap {
+      background: var(--white);
+      border-bottom: 1px solid var(--border-light);
+      position: sticky;
+      top: 76px;
+      z-index: 100;
+    }
+    .sbi-tabs {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      padding: 0 var(--gutter);
+    }
+    .sbi-tab {
+      padding: 20px 32px;
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-mid);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+    }
+    .sbi-tab:hover { color: var(--equity-blue); }
+    .sbi-tab.active { color: var(--equity-blue); border-bottom-color: var(--equity-blue); }
+    .sbi-tab svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ── PANELS ── */
+    .sbi-panel { display: none; }
+    .sbi-panel.active { display: block; }
+
+    /* ── SELL HERO ── */
+    .sell-hero {
+      background: var(--equity-blue);
+      padding: 88px var(--gutter) 72px;
+      position: relative;
+      overflow: hidden;
+    }
+    .sell-hero::before {
+      content: '';
+      position: absolute;
+      top: -40%; right: -10%;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      pointer-events: none;
+    }
+    .sell-hero-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 64px;
+      align-items: center;
+    }
+    .sell-hero-text .eyebrow { color: rgba(255,255,255,0.65); margin-bottom: 14px; }
+    .sell-hero-text h1 {
+      font-family: var(--serif);
+      font-size: clamp(36px, 5vw, 60px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+    .sell-hero-text p { font-size: 17px; color: rgba(255,255,255,0.82); line-height: 1.8; font-weight: 300; margin-bottom: 28px; max-width: 480px; }
+    .sell-hero-form {
+      background: var(--white);
+      padding: 40px 36px;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+    .sell-hero-form h3 {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+    .sell-hero-form p { font-size: 14px; color: var(--text-mid); margin-bottom: 22px; font-weight: 300; }
+
+    /* ── PROCESS STEPS ── */
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border-light);
+    }
+    .process-card {
+      background: var(--white);
+      padding: 40px 28px;
+      text-align: center;
+      transition: background .2s;
+    }
+    .process-card:hover { background: var(--light-bg); }
+    .process-number {
+      font-family: var(--serif);
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--equity-blue);
+      opacity: 0.15;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .process-card h3 {
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+    }
+    .process-card p { font-size: 14px; color: var(--text-mid); line-height: 1.75; font-weight: 300; }
+
+    /* ── MARKETING LIST ── */
+    .marketing-list { list-style: none; }
+    .marketing-list li {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .marketing-list li:last-child { border-bottom: none; }
+    .ml-icon-wrap {
+      width: 40px;
+      height: 40px;
+      background: var(--blue-pale);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--equity-blue);
+    }
+    .ml-icon-wrap svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .ml-body h4 { font-size: 16px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; }
+    .ml-body p { font-size: 14px; color: var(--text-mid); font-weight: 300; line-height: 1.65; margin: 0; }
+
+    /* ── BUY SECTION ── */
+    .buy-hero {
+      background: var(--light-bg);
+      padding: 80px var(--gutter);
+      border-top: 1px solid var(--border-light);
+    }
+    .buy-hero-inner { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .buy-hero-img { position: relative; border-radius: 8px; overflow: hidden; }
+    .buy-hero-img img { width: 100%; height: 420px; object-fit: cover; }
+    .buy-hero-text h2 { font-family: var(--serif); font-size: clamp(30px,4vw,46px); font-weight: 700; color: var(--text-dark); margin-bottom: 16px; line-height: 1.15; }
+    .buy-hero-text p { font-size: 16px; color: var(--text-mid); line-height: 1.85; font-weight: 300; margin-bottom: 16px; }
+    .buy-step-list { list-style: none; margin: 24px 0 32px; }
+    .buy-step-list li {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 15px;
+      color: var(--text-mid);
+      font-weight: 300;
+    }
+    .buy-step-list li:last-child { border-bottom: none; }
+    .bsl-num {
+      width: 28px;
+      height: 28px;
+      background: var(--equity-blue);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ── BUYER CATEGORIES ── */
+    .buyer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .buyer-cat {
+      background: var(--white);
+      border: 1px solid var(--border-light);
+      border-top: 3px solid var(--equity-blue);
+      border-radius: 6px;
+      padding: 28px 22px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .2s;
+      text-decoration: none;
+      display: block;
+    }
+    .buyer-cat:hover { transform: translateY(-4px); box-shadow: var(--card-shadow-hover); border-color: var(--equity-blue); }
+    .buyer-cat-icon {
+      width: 48px;
+      height: 48px;
+      border: 1.5px solid var(--equity-blue);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+      color: var(--equity-blue);
+    }
+    .buyer-cat-icon svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .buyer-cat-name { font-family: var(--serif); font-size: 19px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px; }
+    .buyer-cat-desc { font-size: 13px; color: var(--text-mid); font-weight: 300; line-height: 1.65; }
+
+    /* ── INVEST SECTION ── */
+    .invest-hero {
+      background: var(--equity-blue);
+      padding: 80px var(--gutter);
+    }
+    .invest-inner { max-width: var(--max); margin: 0 auto; }
+    .invest-inner .eyebrow { color: rgba(255,255,255,0.65); }
+    .invest-inner h2 { font-family: var(--serif); font-size: clamp(30px,4vw,48px); font-weight: 700; color: #fff; margin-bottom: 14px; line-height: 1.15; }
+    .invest-inner > p { font-size: 17px; color: rgba(255,255,255,0.82); line-height: 1.85; max-width: 660px; margin-bottom: 52px; font-weight: 300; }
+    .invest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .invest-card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-top: 2px solid rgba(255,255,255,0.4);
+      border-radius: 6px;
+      padding: 36px 28px;
+      transition: background .2s;
+    }
+    .invest-card:hover { background: rgba(255,255,255,0.13); }
+    .invest-card-icon {
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 18px;
+    }
+    .invest-card-icon svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .invest-card h3 { font-family: var(--serif); font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .invest-card p { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.8; font-weight: 300; }
+
+    /* ── SUCCESS STATS ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border-light);
+    }
+    .stat-box {
+      background: var(--white);
+      padding: 40px 24px;
+      text-align: center;
+    }
+    .stat-box-num { font-family: var(--serif); font-size: 44px; font-weight: 700; color: var(--equity-blue); line-height: 1; margin-bottom: 8px; }
+    .stat-box-label { font-size: 13px; color: var(--text-mid); font-weight: 400; letter-spacing: 0.5px; }
+
+    /* ── TESTIMONIALS ── */
+    .t3-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+
+    /* ── FORM CARD ── */
+    .sbi-form-card {
+      background: var(--white);
+      border: 1px solid var(--border-light);
+      border-top: 3px solid var(--equity-blue);
+      border-radius: 6px;
+      padding: 44px 40px;
+      box-shadow: var(--card-shadow);
+    }
+    .sbi-form-card h3 { font-family: var(--serif); font-size: 26px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px; }
+    .sbi-form-card p { font-size: 14px; color: var(--text-mid); margin-bottom: 28px; font-weight: 300; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .sell-hero-inner { grid-template-columns: 1fr; }
+      .sell-hero-form { max-width: 520px; }
+      .buy-hero-inner { grid-template-columns: 1fr; }
+      .buy-hero-img { height: 320px; }
+      .buy-hero-img img { height: 320px; }
+      .buyer-grid { grid-template-columns: 1fr 1fr; }
+      .invest-grid { grid-template-columns: 1fr 1fr; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .process-grid { grid-template-columns: 1fr 1fr; }
+      .t3-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .sbi-tab { padding: 16px 16px; font-size: 13px; }
+      .buyer-grid { grid-template-columns: 1fr 1fr; }
+      .invest-grid { grid-template-columns: 1fr; }
+      .process-grid { grid-template-columns: 1fr; }
+      .sell-hero { padding: 56px var(--gutter) 48px; }
+      .sbi-form-card { padding: 32px 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="tb-item"><span class="tb-dot"></span><span>Licensed REALTOR® · Equity Real Estate Utah</span></div>
+  <div class="tb-item"><span class="tb-dot"></span><span>Serving Utah County Since 2017</span></div>
+  <div class="tb-item"><span class="tb-dot"></span><span><a href="tel:3853279225">385-327-9225</a></span></div>
+  <div class="tb-item"><span class="tb-dot"></span><a href="https://www.facebook.com/tamara.utah.homes/" target="_blank" rel="noopener">Facebook</a></div>
+  <div class="tb-item"><span class="tb-dot"></span><a href="https://www.linkedin.com/in/tammy-seiler" target="_blank" rel="noopener">LinkedIn</a></div>
+</div>
+
+<!-- NAV injected by script below -->
+<header>
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html">
+      <span style="color:var(--equity-blue);display:flex;align-items:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+      <div style="margin-left:8px;">
+        <span class="brand-name">Tamara Seiler</span>
+        <span class="brand-sub">REALTOR&reg; &middot; Utah County</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="has-dropdown">
+        <a href="buy-sell-invest.html" class="active">Sell | Buy | Invest &#9662;</a>
+        <div class="dropdown">
+          <a href="buy-sell-invest.html#sell">Sell Your Home</a>
+          <a href="buy-sell-invest.html#buy">Buy a Home</a>
+          <a href="buy-sell-invest.html#invest">Invest</a>
+          <a href="featured-listings.html">Current Listings</a>
+        </div>
+      </li>
+      <li><a href="rentals.html">Rentals</a></li>
+      <li class="has-dropdown">
+        <a href="about.html">Meet Tammy &#9662;</a>
+        <div class="dropdown">
+          <a href="about.html">About Tammy</a>
+          <a href="client-testimonials.html">Client Reviews</a>
+        </div>
+      </li>
+      <li><a href="community.html">Community</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="tel:3853279225" class="btn btn-gold" style="padding:10px 20px;font-size:13px;font-weight:600;white-space:nowrap;">Call Now</a>
+    </div>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ── SECTION TABS ── -->
+<div class="sbi-tabs-wrap">
+  <div class="sbi-tabs">
+    <div class="sbi-tab active" data-tab="sell">
+      <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      Sell Your Home
+    </div>
+    <div class="sbi-tab" data-tab="buy">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Buy a Home
+    </div>
+    <div class="sbi-tab" data-tab="invest">
+      <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      Invest in Real Estate
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SELL PANEL
+     ════════════════════════════════════════════════════════════ -->
+<div id="panel-sell" class="sbi-panel active">
+
+  <!-- Hero + form -->
+  <div class="sell-hero">
+    <div class="sell-hero-inner">
+      <div class="sell-hero-text">
+        <span class="eyebrow">Thinking of Selling?</span>
+        <h1>Let's Get You<br/>Top Dollar for<br/>Your Utah County Home.</h1>
+        <p>The right pricing strategy, a professional marketing plan, and an agent who knows this market inside and out. That's what I bring to every listing — and it makes all the difference.</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;">
+          <a href="contact.html" class="btn" style="background:#fff;color:var(--equity-blue);font-weight:600;border-radius:4px;">Talk to Tammy</a>
+          <a href="tel:3853279225" class="btn btn-outline-light">Call 385-327-9225</a>
+        </div>
+      </div>
+      <!-- Free home value form -->
+      <div class="sell-hero-form">
+        <div style="width:44px;height:3px;background:var(--equity-blue);border-radius:2px;margin-bottom:16px;"></div>
+        <h3>What's My Home Worth?</h3>
+        <p>Free estimate — no obligation. Most responses within 24 hours.</p>
+        <form id="sellForm">
+          <div class="form-2col" style="margin-bottom:14px;">
+            <div class="input-group" style="margin-bottom:0;"><label class="input-label">First Name</label><input class="input-field" type="text" name="firstName" placeholder="Jane" required/></div>
+            <div class="input-group" style="margin-bottom:0;"><label class="input-label">Last Name</label><input class="input-field" type="text" name="lastName" placeholder="Smith" required/></div>
+          </div>
+          <div class="input-group"><label class="input-label">Property Address</label><input class="input-field" type="text" name="address" placeholder="123 Main St, Spanish Fork UT" required/></div>
+          <div class="form-2col" style="margin-bottom:14px;">
+            <div class="input-group" style="margin-bottom:0;"><label class="input-label">Phone</label><input class="input-field" type="tel" name="phone" placeholder="(801) 555-0100"/></div>
+            <div class="input-group" style="margin-bottom:0;"><label class="input-label">Email</label><input class="input-field" type="email" name="email" placeholder="you@email.com" required/></div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">When Are You Thinking of Selling?</label>
+            <select class="input-field" name="timeline">
+              <option>ASAP — 0 to 3 months</option>
+              <option>Within 6 months</option>
+              <option>Later this year</option>
+              <option>Just curious about value</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-gold" style="width:100%;display:block;text-align:center;padding:13px;margin-top:8px;">Get My Free Home Value</button>
+          <div id="sellSuccess" class="form-success">Thank you! Tammy will review your property and reach out within 24 hours.</div>
+          <p style="font-size:12px;color:var(--text-lt);text-align:center;margin-top:10px;">No commitment. No pressure. Just honest information.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-box-num">15+</div><div class="stat-box-label">Years in Real Estate</div></div>
+    <div class="stat-box"><div class="stat-box-num">8+</div><div class="stat-box-label">Confirmed Recent Sold Transactions</div></div>
+    <div class="stat-box"><div class="stat-box-num">Both</div><div class="stat-box-label">Listing &amp; Buyer's Agent</div></div>
+    <div class="stat-box"><div class="stat-box-num">100%</div><div class="stat-box-label">On Your Side</div></div>
+  </div>
+
+  <!-- Selling Process -->
+  <div style="background:var(--light-bg);padding:80px var(--gutter);border-top:1px solid var(--border-light);">
+    <div style="max-width:var(--max);margin:0 auto;">
+      <div style="text-align:center;margin-bottom:52px;">
+        <span class="eyebrow">My Selling Process</span>
+        <div style="width:44px;height:3px;background:var(--equity-blue);border-radius:2px;margin:12px auto 16px;"></div>
+        <h2 class="section-title">From "Thinking About It" to SOLD</h2>
+        <p class="section-sub">Simple. Transparent. Stress-free.</p>
+      </div>
+      <div class="process-grid">
+        <div class="process-card"><div class="process-number">01</div><h3>Free Home Value</h3><p>A detailed Comparative Market Analysis based on what's actually selling in your neighborhood right now — not guesswork.</p></div>
+        <div class="process-card"><div class="process-number">02</div><h3>Price It Right</h3><p>Pricing strategy is everything. Too high and you sit. Too low and you lose. I find the sweet spot that attracts serious buyers fast.</p></div>
+        <div class="process-card"><div class="process-number">03</div><h3>Market Your Home</h3><p>Professional photography, MLS listing, social media, and my buyer network. Your home gets maximum exposure to the right people.</p></div>
+        <div class="process-card"><div class="process-number">04</div><h3>Negotiate &amp; Close</h3><p>Meticulous contract review, expert negotiation, and I stay with you every step from first offer to keys handed over.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What You Get -->
+  <div style="background:var(--white);padding:80px var(--gutter);border-top:1px solid var(--border-light);">
+    <div style="max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;">
+      <div>
+        <span class="eyebrow">What You Get With Tammy</span>
+        <div style="width:44px;height:3px;background:var(--equity-blue);border-radius:2px;margin:12px 0 20px;"></div>
+        <h2 class="section-title" style="margin-bottom:24px;">More Than a Listing.<br/>A Real Strategy.</h2>
+        <p style="font-size:16px;color:var(--text-mid);line-height:1.85;font-weight:300;">With 15+ years of personally buying and renovating properties in Utah County, I know what buyers are looking for — and how to position your home to stand out.</p>
+        <ul class="marketing-list" style="margin-top:24px;">
+          <li>
+            <div class="ml-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+            <div class="ml-body"><h4>Professional Photography</h4><p>Listings with great photos sell faster and for more. I make sure yours looks its absolute best online.</p></div>
+          </li>
+          <li>
+            <div class="ml-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+            <div class="ml-body"><h4>MLS + Realtor.com + Zillow</h4><p>Maximum exposure across every major platform where buyers are actively searching.</p></div>
+          </li>
+          <li>
+            <div class="ml-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>
+            <div class="ml-body"><h4>Social Media Marketing</h4><p>Your listing shared across Facebook, LinkedIn, and my personal buyer network — reaching people Zillow doesn't.</p></div>
+          </li>
+          <li>
+            <div class="ml-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <div class="ml-body"><h4>Staging &amp; Prep Advice</h4><p>My interior design background means I'll tell you exactly what to do — and skip — before listing.</p></div>
+          </li>
+          <li>
+            <div class="ml-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+            <div class="ml-body"><h4>Meticulous Contract Review</h4><p>I read every line. You'll never be caught off guard by something buried in your contract.</p></div>
+          </li>
+        </ul>
+      </div>
+      <div class="sbi-form-card">
+        <div style="width:44px;height:3px;background:var(--equity-blue);border-radius:2px;margin-bottom:16px;"></div>
+        <h3>Ready to Get Started?</h3>
+        <p>Tell Tammy about your home and she'll prepare a free, detailed market analysis.</p>
+        <form id="sell2Form">
+          <div class="input-group"><label class="input-label">Property Address</label><input class="input-field" type="text" name="address" placeholder="123 Main St, Spanish Fork UT 84660" required/></div>
+          <div class="form-2col" style="margin-bottom:14px;">
+            <div class="input-group" style="margin-bottom:0;"><label class="input-label">Bedrooms</label><select class="input-field" name="beds"><option>2</option><option>3</option><option selected>4</option><option>5+</option></select></div>
+            <div class="input-group" style="margin-bottom:0;"><label class="input-label">Approx. Sq Ft</label><input class="input-field" type="text" name="sqft" placeholder="e.g. 2,200"/></div>
+          </div>
+          <div class="form-2col" style="margin-bottom:14px;">
+            <div class="input-group" style="margin-bottom:0;"><label class="input-label">Phone</label><input class="input-field" type="tel" name="phone" placeholder="(801) 555-0100"/></div>
+            <div class="input-group" style="margin-bottom:0;"><label class="input-label">Email</label><input class="input-field" type="email" name="email" placeholder="you@email.com" required/></div>
+          </div>
+          <div class="input-group"><label class="input-label">Ideal Sell Timeline</label><select class="input-field" name="timeline"><option>ASAP</option><option>3–6 months</option><option>Later this year</option><option>Just exploring</option></select></div>
+          <div class="input-group" style="margin-bottom:24px;"><label class="input-label">Anything else Tammy should know?</label><textarea class="input-field" name="notes" rows="3" placeholder="Recent upgrades, specific price in mind, etc."></textarea></div>
+          <button type="submit" class="btn btn-gold" style="width:100%;display:block;text-align:center;padding:14px;">Get My Free Home Value →</button>
+          <div id="sell2Success" class="form-success">Thank you! Tammy will reach out within 24 hours with your free home value estimate.</div>
+          <p style="font-size:12px;color:var(--text-lt);text-align:center;margin-top:12px;">No commitment. No pressure. Just real answers.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end sell panel -->
+
+<!-- ════════════════════════════════════════════════════════════
+     BUY PANEL
+     ════════════════════════════════════════════════════════════ -->
+<div id="panel-buy" class="sbi-panel">
+
+  <div class="buy-hero">
+    <div class="buy-hero-inner">
+      <div class="buy-hero-text">
+        <span class="eyebrow">Ready to Buy?</span>
+        <div style="width:44px;height:3px;background:var(--equity-blue);border-radius:2px;margin:12px 0 20px;"></div>
+        <h2>Finding Your Perfect<br/>Utah County Home<br/>Starts Here.</h2>
+        <p>Buying a home is one of the biggest decisions you'll ever make. I'm here to make sure you feel informed, protected, and confident every step of the way — whether you're a first-time buyer or a seasoned homeowner making your next move.</p>
+        <p>As a buyer's agent, my job is 100% to serve your interests — never the seller's. I negotiate hard, catch red flags early, and fight to get you the best possible deal.</p>
+        <ul class="buy-step-list">
+          <li><span class="bsl-num">1</span>We talk about what you're looking for and your budget</li>
+          <li><span class="bsl-num">2</span>I set up custom searches so you see homes before anyone else</li>
+          <li><span class="bsl-num">3</span>We tour properties — I point out what the listing won't tell you</li>
+          <li><span class="bsl-num">4</span>I write a strong offer and negotiate on your behalf</li>
+          <li><span class="bsl-num">5</span>I guide you through inspections, appraisal, and closing day</li>
+        </ul>
+        <a href="contact.html?interest=buying" class="btn btn-gold">Start My Home Search</a>
+      </div>
+      <div class="buy-hero-img">
+        <img src="https://static.wixstatic.com/media/86c47d_dabee1b03b8c440eb480f25fbc8e8668~mv2.jpg" alt="Utah County home for sale"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- Buyer categories -->
+  <div style="background:var(--white);padding:80px var(--gutter);border-top:1px solid var(--border-light);">
+    <div style="max-width:var(--max);margin:0 auto;">
+      <div style="text-align:center;margin-bottom:52px;">
+        <span class="eyebrow">What Are You Looking For?</span>
+        <div style="width:44px;height:3px;background:var(--equity-blue);border-radius:2px;margin:12px auto 16px;"></div>
+        <h2 class="section-title">Find Your Perfect Match</h2>
+        <p class="section-sub">Family homes · New builds · First-time buying · Relocation</p>
+      </div>
+      <div class="buyer-grid">
+        <a href="contact.html?interest=family-home" class="buyer-cat">
+          <div class="buyer-cat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+          <div class="buyer-cat-name">Family Homes</div>
+          <div class="buyer-cat-desc">Spacious homes in top Nebo School District neighborhoods</div>
+        </a>
+        <a href="contact.html?interest=first-time" class="buyer-cat">
+          <div class="buyer-cat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><circle cx="7.5" cy="15.5" r="5.5"/><path d="M21 2l-9.6 9.6M15.5 7.5l3 3"/></svg></div>
+          <div class="buyer-cat-name">First-Time Buyers</div>
+          <div class="buyer-cat-desc">I walk you through every step — no question is too small</div>
+        </a>
+        <a href="contact.html?interest=relocation" class="buyer-cat">
+          <div class="buyer-cat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+          <div class="buyer-cat-name">Relocating to Utah</div>
+          <div class="buyer-cat-desc">Virtual tours, neighborhood guides, long-distance support</div>
+        </a>
+        <a href="contact.html?interest=upsizing" class="buyer-cat">
+          <div class="buyer-cat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+          <div class="buyer-cat-name">Upsizing</div>
+          <div class="buyer-cat-desc">Selling your current home and buying your next one — I handle both</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact form for buyers -->
+  <div style="background:var(--light-bg);padding:80px var(--gutter);border-top:1px solid var(--border-light);">
+    <div style="max-width:640px;margin:0 auto;">
+      <div class="sbi-form-card">
+        <div style="width:44px;height:3px;background:var(--equity-blue);border-radius:2px;margin-bottom:16px;"></div>
+        <h3>Tell Me What You're Looking For</h3>
+        <p>No pressure — just a conversation about what matters most to you.</p>
+        <form id="buyForm">
+          <div class="form-2col" style="margin-bottom:14px;">
+            <div class="input-group" style="margin-bottom:0;"><label class="input-label">Name</label><input class="input-field" type="text" name="name" placeholder="Jane Smith" required/></div>
+            <div class="input-group" style="margin-bottom:0;"><label class="input-label">Phone or Email</label><input class="input-field" type="text" name="contact" placeholder="Best way to reach you" required/></div>
+          </div>
+          <div class="input-group"><label class="input-label">What City / Area Are You Interested In?</label><select class="input-field" name="area"><option>Spanish Fork</option><option>Mapleton</option><option>Springville</option><option>Provo</option><option>American Fork</option><option>Payson</option><option>Not sure yet</option></select></div>
+          <div class="form-2col" style="margin-bottom:14px;">
+            <div class="input-group" style="margin-bottom:0;"><label class="input-label">Budget Range</label><select class="input-field" name="budget"><option>Under $350K</option><option>$350K–$500K</option><option>$500K–$700K</option><option>$700K–$1M</option><option>$1M+</option></select></div>
+            <div class="input-group" style="margin-bottom:0;"><label class="input-label">Bedrooms Needed</label><select class="input-field" name="beds"><option>2+</option><option>3+</option><option>4+</option><option>5+</option></select></div>
+          </div>
+          <div class="input-group" style="margin-bottom:24px;"><label class="input-label">Anything else? First-time buyer? Relocating?</label><textarea class="input-field" name="notes" rows="3" placeholder="Tell me a little about your situation..."></textarea></div>
+          <button type="submit" class="btn btn-gold" style="width:100%;display:block;text-align:center;padding:14px;">Start My Home Search →</button>
+          <div id="buySuccess" class="form-success">Thank you! Tammy will be in touch shortly to start your search.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end buy panel -->
+
+<!-- ════════════════════════════════════════════════════════════
+     INVEST PANEL
+     ════════════════════════════════════════════════════════════ -->
+<div id="panel-invest" class="sbi-panel">
+
+  <div class="invest-hero">
+    <div class="invest-inner">
+      <span class="eyebrow">Real Estate Investing</span>
+      <div style="width:44px;height:3px;background:rgba(255,255,255,0.5);border-radius:2px;margin:12px 0 20px;"></div>
+      <h2>Build Wealth Through<br/>Utah County Real Estate.</h2>
+      <p>I've spent 15+ years personally buying, renovating, and managing investment properties in Utah County. That's not just background — it's a perspective most agents simply don't have. When you work with me on an investment, you get someone who's actually done it.</p>
+      <div class="invest-grid">
+        <div class="invest-card">
+          <div class="invest-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+          <h3>Fix &amp; Flip</h3>
+          <p>I know which renovations add real value in the Utah County market and which ones don't. I can help you find undervalued properties, estimate rehab costs honestly, and sell for maximum return.</p>
+        </div>
+        <div class="invest-card">
+          <div class="invest-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg></div>
+          <h3>Rental Properties</h3>
+          <p>Long-term rentals in Utah County are in high demand thanks to BYU, UVU, and a growing tech sector. I can help you identify cash-flow positive properties and navigate landlord considerations.</p>
+        </div>
+        <div class="invest-card">
+          <div class="invest-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+          <h3>Long-Term Appreciation</h3>
+          <p>Utah County has been one of the fastest-appreciating real estate markets in the country. I help you position for long-term wealth through strategic property selection.</p>
+        </div>
+        <div class="invest-card">
+          <div class="invest-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <h3>Short-Term Rentals</h3>
+          <p>Utah's incredible outdoor recreation scene makes STRs a strong play in the right locations. From Bryce Canyon-area properties to ski-adjacent homes, I know the STR landscape well.</p>
+        </div>
+        <div class="invest-card">
+          <div class="invest-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="18"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+          <h3>Multi-Family</h3>
+          <p>Duplexes and small multi-family properties in Utah County offer strong rent-to-value ratios. I can identify opportunities and help you analyze potential returns before you commit.</p>
+        </div>
+        <div class="invest-card">
+          <div class="invest-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+          <h3>Land &amp; New Builds</h3>
+          <p>Utah County is still growing rapidly. Raw land and new construction can offer excellent upside — if you know which areas are positioned for growth. I have the local knowledge to guide you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why invest in Utah County -->
+  <div style="background:var(--white);padding:80px var(--gutter);border-top:1px solid var(--border-light);">
+    <div style="max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;">
+      <div>
+        <span class="eyebrow">Why Utah County?</span>
+        <div style="width:44px;height:3px;background:var(--equity-blue);border-radius:2px;margin:12px 0 20px;"></div>
+        <h2 class="section-title" style="margin-bottom:24px;">One of America's<br/>Strongest Real Estate Markets</h2>
+        <p style="font-size:16px;color:var(--text-mid);line-height:1.85;font-weight:300;margin-bottom:16px;">Utah County has experienced remarkable growth over the past decade — driven by a booming tech sector, two major universities, strong family formation rates, and one of the best qualities of life in the country.</p>
+        <p style="font-size:16px;color:var(--text-mid);line-height:1.85;font-weight:300;">Whether you're buying your first investment property or adding to an existing portfolio, the fundamentals here are strong.</p>
+        <ul style="list-style:none;margin-top:28px;display:flex;flex-direction:column;gap:0;">
+          <li style="display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-light);font-size:15px;color:var(--text-mid);font-weight:300;"><span style="width:24px;height:24px;background:var(--blue-pale);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--equity-blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>BYU + UVU create strong consistent rental demand</li>
+          <li style="display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-light);font-size:15px;color:var(--text-mid);font-weight:300;"><span style="width:24px;height:24px;background:var(--blue-pale);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--equity-blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Silicon Slopes tech corridor driving job growth</li>
+          <li style="display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-light);font-size:15px;color:var(--text-mid);font-weight:300;"><span style="width:24px;height:24px;background:var(--blue-pale);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--equity-blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Strong population growth among young families</li>
+          <li style="display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-light);font-size:15px;color:var(--text-mid);font-weight:300;"><span style="width:24px;height:24px;background:var(--blue-pale);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--equity-blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>No state income tax on investment income</li>
+          <li style="display:flex;align-items:center;gap:14px;padding:12px 0;font-size:15px;color:var(--text-mid);font-weight:300;"><span style="width:24px;height:24px;background:var(--blue-pale);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--equity-blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>World-class outdoor recreation supports STR demand year-round</li>
+        </ul>
+      </div>
+      <div class="sbi-form-card">
+        <div style="width:44px;height:3px;background:var(--equity-blue);border-radius:2px;margin-bottom:16px;"></div>
+        <h3>Let's Talk Investment Strategy</h3>
+        <p>Tell me what you're thinking and I'll share what I've learned from 15+ years in the field.</p>
+        <form id="investForm">
+          <div class="form-2col" style="margin-bottom:14px;">
+            <div class="input-group" style="margin-bottom:0;"><label class="input-label">Name</label><input class="input-field" type="text" name="name" placeholder="Jane Smith" required/></div>
+            <div class="input-group" style="margin-bottom:0;"><label class="input-label">Phone or Email</label><input class="input-field" type="text" name="contact" placeholder="Best way to reach you" required/></div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Investment Type</label>
+            <select class="input-field" name="type">
+              <option>Fix &amp; Flip</option>
+              <option>Long-term Rental</option>
+              <option>Short-term / Vacation Rental</option>
+              <option>Multi-Family</option>
+              <option>Land / New Build</option>
+              <option>Not sure yet — need guidance</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Approximate Budget</label>
+            <select class="input-field" name="budget">
+              <option>Under $300K</option>
+              <option>$300K–$500K</option>
+              <option>$500K–$750K</option>
+              <option>$750K–$1M</option>
+              <option>$1M+</option>
+            </select>
+          </div>
+          <div class="input-group" style="margin-bottom:24px;"><label class="input-label">Tell me about your investment goals</label><textarea class="input-field" name="goals" rows="4" placeholder="e.g. I want cash flow, or I'm looking for appreciation, or I want to flip my first property..."></textarea></div>
+          <button type="submit" class="btn btn-gold" style="width:100%;display:block;text-align:center;padding:14px;">Let's Talk Investment →</button>
+          <div id="investSuccess" class="form-success">Thank you! Tammy will reach out shortly to discuss your investment strategy.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end invest panel -->
+
+<!-- ── FOOTER INJECTED BY SCRIPT ── -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="name">Tamara &ldquo;Tammy&rdquo; Seiler</div>
+      <div class="title">REALTOR&reg; &middot; Equity Real Estate Utah</div>
+      <p>Your neighbor, your advocate, your REALTOR&reg;. Helping Utah County families buy, sell, and find their place to call home &mdash; with honesty, care, and local know-how.</p>
+      <div style="margin-top:22px;display:flex;flex-direction:column;gap:12px;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <span style="width:34px;height:34px;border:1px solid rgba(255,255,255,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.75);flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5 19.79 19.79 0 01.86 2.18 2 2 0 012.18 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92v2.02z"/></svg></span>
+          <div><span style="display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:2px;">Phone</span><a href="tel:3853279225" style="color:rgba(255,255,255,0.88);font-size:14px;">385-327-9225</a></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <span style="width:34px;height:34px;border:1px solid rgba(255,255,255,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.75);flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7L22 7"/></svg></span>
+          <div><span style="display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:2px;">Email</span><a href="mailto:tamara.seiler@outlook.com" style="color:rgba(255,255,255,0.88);font-size:14px;">tamara.seiler@outlook.com</a></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <span style="width:34px;height:34px;border:1px solid rgba(255,255,255,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.75);flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+          <div><span style="display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:2px;">Office</span><span style="color:rgba(255,255,255,0.78);font-size:14px;">307 N 2700 E &middot; Spanish Fork, UT 84660</span></div>
+        </div>
+      </div>
+      <div style="margin-top:20px;display:flex;gap:10px;align-items:center;">
+        <a href="https://www.facebook.com/tamara.utah.homes/" target="_blank" rel="noopener"
+           style="width:36px;height:36px;border:1px solid rgba(255,255,255,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.78);transition:all .2s;"
+           title="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        <a href="https://www.linkedin.com/in/tammy-seiler" target="_blank" rel="noopener"
+           style="width:36px;height:36px;border:1px solid rgba(255,255,255,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.78);transition:all .2s;"
+           title="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      </div>
+      <div style="margin-top:20px;padding:10px 14px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:4px;display:inline-block;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 54" style="height:40px;width:auto;display:block;">
+  <circle cx="20" cy="27" r="19" fill="white" opacity="0.95"/>
+  <text x="20" y="34" font-family="Georgia,serif" font-size="22" font-weight="bold" fill="#0054A0" text-anchor="middle" font-style="italic">e</text>
+  <text x="46" y="36" font-family="Georgia,serif" font-size="24" font-weight="bold" fill="white" letter-spacing="0.3">quity</text>
+  <text x="46" y="50" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,0.6)" letter-spacing="2.5">REAL ESTATE</text>
+</svg>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="buy-sell-invest.html">Sell | Buy | Invest</a></li>
+        <li><a href="featured-listings.html">Current Listings</a></li>
+        <li><a href="rentals.html">Rental Properties</a></li>
+        <li><a href="community.html">Community Guide</a></li>
+        <li><a href="about.html">Meet Tammy</a></li>
+        <li><a href="client-testimonials.html">Client Reviews</a></li>
+        <li><a href="contact.html">Contact Me</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Areas Served</h4>
+      <ul>
+        <li><a href="community.html#spanish-fork">Spanish Fork, UT 84660</a></li>
+        <li><a href="community.html#mapleton">Mapleton, UT 84664</a></li>
+        <li><a href="contact.html?area=provo">Provo, UT 84601</a></li>
+        <li><a href="contact.html?area=american-fork">American Fork, UT 84003</a></li>
+        <li><a href="contact.html?area=payson">Payson, UT 84651</a></li>
+        <li><a href="community.html#springville">Springville, UT 84663</a></li>
+        <li><a href="contact.html?interest=relocation">Relocating to Utah?</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2025 Tamara Seiler &middot; REALTOR&reg; &middot; Equity Real Estate Utah &middot; Licensed in Utah</span>
+    <span>
+      <a href="https://www.facebook.com/tamara.utah.homes/" target="_blank" rel="noopener">Facebook</a>
+      &middot;
+      <a href="https://www.linkedin.com/in/tammy-seiler" target="_blank" rel="noopener">LinkedIn</a>
+      &middot;
+      <a href="contact.html">Contact</a>
+    </span>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script>
+  // ── TAB SWITCHING ───────────────────────────────────────────────
+  document.querySelectorAll('.sbi-tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.sbi-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.sbi-panel').forEach(p => p.classList.remove('active'));
+      this.classList.add('active');
+      const panel = document.getElementById('panel-' + this.dataset.tab);
+      if (panel) panel.classList.add('active');
+      document.querySelector('.sbi-tabs-wrap').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
+  // ── URL hash routing ─────────────────────────────────────────────
+  function activateFromHash() {
+    const hash = window.location.hash.replace('#','');
+    if (['sell','buy','invest'].includes(hash)) {
+      const tab = document.querySelector(`[data-tab="${hash}"]`);
+      if (tab) tab.click();
+    }
+  }
+  activateFromHash();
+  window.addEventListener('hashchange', activateFromHash);
+
+  // ── FORMS ────────────────────────────────────────────────────────
+  ['sellForm','sell2Form','buyForm','investForm'].forEach(id => {
+    const form = document.getElementById(id);
+    if (!form) return;
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const successId = id.replace('Form','
