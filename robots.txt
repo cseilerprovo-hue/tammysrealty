@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /contact.php
+Disallow: /rental-application.php
+Disallow: /mail_errors.log
+
+Sitemap: https://www.tammyseiler.com/sitemap.xml
