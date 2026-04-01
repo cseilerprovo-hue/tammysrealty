@@ -95,7 +95,7 @@ a { text-decoration: none; color: inherit; }
 header {
   background: var(--white);
   position: sticky;
-  top: 0;
+  top: 41px;
   z-index: 200;
   border-bottom: 1px solid var(--border-light);
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
@@ -185,7 +185,7 @@ header {
   transition: background .15s, color .15s;
 }
 .dropdown a:last-child { border-bottom: none; }
-.dropdown a:hover { background: var(--blue-pale); color: var(--equity-blue); }
+.dropdown a:hover { background: var(--gold-pale); color: var(--gold-dk); }
 
 /* Nav right slot */
 .nav-right {
@@ -943,7 +943,7 @@ footer {
   color: rgba(255,255,255,0.45);
 }
 .footer-top {
-  max-width: var(--max);
+  max-width: 1400px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1.6fr 1fr 1fr;
@@ -1057,7 +1057,6 @@ footer {
 
 /* ── TRUST BAR ── */
 .trust-bar {
-
   background: var(--equity-blue);
   color: rgba(255,255,255,0.9);
   padding: 10px var(--gutter);
@@ -1069,7 +1068,9 @@ footer {
   font-size: 13px;
   letter-spacing: 0;
   font-weight: 500;
-  overflow: hidden;
+  position: sticky;
+  top: 0;
+  z-index: 201;
 }
 .trust-bar a { color: #fff; text-decoration: underline; transition: opacity .2s; }
 .trust-bar a:hover { opacity: 0.8; }

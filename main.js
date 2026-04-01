@@ -1,14 +1,16 @@
 /* ── NAV HAMBURGER ── */
 document.addEventListener('DOMContentLoaded', () => {
+
+  /* ── HAMBURGER MENU ──────────────────────────────────────────────── */
   const hamburger = document.querySelector('.hamburger');
-  const navLinks = document.querySelector('.nav-links');
+  const navLinks  = document.querySelector('.nav-links');
   if (hamburger && navLinks) {
     hamburger.addEventListener('click', () => {
       navLinks.classList.toggle('open');
     });
   }
 
-  /* ── FORM HANDLING ── */
+  /* ── LEGACY FORM HANDLING (data-form attribute) ───────────────────── */
   document.querySelectorAll('form[data-form]').forEach(form => {
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -16,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (msg) {
         msg.style.display = 'block';
         form.reset();
-        // reset radio defaults
         const firstRatings = form.querySelectorAll('input[type="radio"]');
         firstRatings.forEach(r => { if (r.dataset.default) r.checked = true; });
         setTimeout(() => msg.style.display = 'none', 7000);
@@ -24,6 +25,82 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  /* ── GENERAL CONTACT FORMS → contact.php ─────────────────────────── */
+  // Handles: homeValueForm, relocationForm, quickContactForm, contactForm
+  ['homeValueForm', 'relocationForm', 'quickContactForm', 'contactForm'].forEach(function(id) {
+    const form = document.getElementById(id);
+    if (!form) return;
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const btn = this.querySelector('button[type="submit"]');
+      const originalText = btn ? btn.textContent : '';
+      if (btn) { btn.textContent = 'Sending...'; btn.disabled = true; }
+
+      fetch('contact.php', {
+        method: 'POST',
+        body: new FormData(this)
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(res) {
+        if (res.success) {
+          const successId = id.replace('Form', 'Success');
+          const msg = document.getElementById(successId);
+          if (msg) {
+            msg.style.display = 'block';
+            msg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+          form.reset();
+        } else {
+          alert(res.message);
+        }
+      })
+      .catch(function() {
+        alert('Something went wrong. Please call Tammy directly at 385-327-9225.');
+      })
+      .finally(function() {
+        if (btn) { btn.textContent = originalText; btn.disabled = false; }
+      });
+    });
+  });
+
+  /* ── RENTAL APPLICATION FORM → rental-application.php ────────────── */
+  const rentalForm = document.getElementById('rentalForm');
+  if (rentalForm) {
+    rentalForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const btn = this.querySelector('button[type="submit"]');
+      const originalText = btn ? btn.textContent : '';
+      if (btn) { btn.textContent = 'Submitting...'; btn.disabled = true; }
+
+      fetch('rental-application.php', {
+        method: 'POST',
+        body: new FormData(this)
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(res) {
+        if (res.success) {
+          const msg = document.getElementById('rentalSuccess');
+          if (msg) {
+            msg.style.display = 'block';
+            msg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+          rentalForm.reset();
+        } else {
+          alert(res.message);
+        }
+      })
+      .catch(function() {
+        alert('Something went wrong. Please call Tammy directly at 385-327-9225.');
+      })
+      .finally(function() {
+        if (btn) { btn.textContent = originalText; btn.disabled = false; }
+      });
+    });
+  }
 
   /* ── GALLERY LIGHTBOX (simple) ── */
   const galleryImgs = document.querySelectorAll('.gallery img');
